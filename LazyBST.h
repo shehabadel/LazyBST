@@ -11,8 +11,8 @@ private:
 	{
 	public:
 		ElementType data;
-		Node * left;
-		Node * right;
+		Node* left;
+		Node* right;
 		bool isDeleted;
 
 		Node() :left(0), right(0), isDeleted(0)
@@ -22,6 +22,15 @@ private:
 		{}
 	};
 	typedef Node* NodePointer;
+	
+	void searching(const ElementType &item, bool & found, NodePointer & locPtr, NodePointer & parent ) const;
+	/*------------------------------------------------------------------------
+     Locate a node containing item and its parent.
+     
+     Precondition:  None.
+     Postcondition: locptr points to node containing item or is null if
+     not found, and parent points to its parent.#include <iostream>
+     ------------------------------------------------------------------------*/
 
 public:
 
