@@ -11,14 +11,14 @@ private:
 	{
 	public:
 		ElementType data;
-		Node * L;
-		Node * R;
-		bool tagged;
+		Node * left;
+		Node * right;
+		bool isDeleted;
 
-		Node() :L(0), R(0), tagged(0)
+		Node() :left(0), right(0), isDeleted(0)
 		{}
 
-		Node(ElementType item) : data(item), L(0), R(0), tagged(0)
+		Node(ElementType item) : data(item), left(0), right(0), isDeleted(0)
 		{}
 	};
 	typedef Node* NodePointer;
