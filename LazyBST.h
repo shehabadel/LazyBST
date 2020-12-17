@@ -29,7 +29,7 @@ public:
 	/*--------------------------------------------------------------------
 	 Default constructor: builds an empty Tree object.
 	 --------------------------------------------------------------------*/
-	bool empty();
+	bool empty() const;
 	/*--------------------------------------------------------------------
 	 Return true if the tree is empty (the size is 0).
 	 --------------------------------------------------------------------*/
@@ -87,8 +87,8 @@ public:
 
 private:
 	NodePointer root;
-	int mySize;
-	int taggedSize;
+	int mySize; //size of all nodes inside the BST
+	int flaggedSize; //size of isDeleted or flagged nodes inside the BST
 };
 
 
