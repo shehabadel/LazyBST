@@ -88,3 +88,83 @@ bool LazyBST::insert(ElementType item)
         return;
     }
 }
+
+ElementType LazyBST::front()
+
+{
+    /* 
+    we have two pointers (ptr and succPtr) and a variable called minimum
+    first we assign the initial value of minimum to root's data,
+    secondly, we assign ptr to root and succPtr to its left child 
+
+    we loop through the tree's left children since they contain all minimum values
+
+    if ptr's data is bigger than succPtr's data and succPtr is not marked as deleted
+    then succPtr's data is less than ptr's data, thus we minimum = succPtr's data
+
+    thus after looping, we return minimum's value
+    */
+    
+        //there is no left child, so the root is the minimum element
+    if(root->left=0)
+    {
+        return root->data;
+    }
+
+    ElementType minimum;
+    LazyBST::NodePointer ptr,succPtr;
+    ptr=root; //ptr points on the root 
+    succPtr=root->left; //succPtr points to the left descendent of the root
+    minimum=root->data; //minimum's initial value is root's data, in which we will compare it with other nodes
+
+    while(succPtr->left!=0)
+    {
+        if( (ptr->data > succPtr->data) && !(succPtr->isDeleted) )
+        {
+            minimum=succPtr->data;
+        }
+        else
+        {
+            ptr=succPtr;
+            succPtr=succPtr->left;
+        }
+        
+    }
+    return minimum;
+
+}
+
+ElementType LazyBST::back()
+
+{
+    /*
+    same implementation of front() except ptr's data must be less than succPtr's data
+    */
+    if(root->right=0)
+    {
+        return root->data;
+    }
+
+    ElementType maximum;
+    LazyBST::NodePointer ptr,succPtr;
+    ptr=root; //ptr points on the root 
+    succPtr=root->right; //succPtr points to the left descendent of the root
+    maximum=root->data; //maximum's initial value is root's data, in which we will compare it with other nodes
+
+    while(succPtr->right!=0)
+    {
+        if( (ptr->data < succPtr->data) && !(succPtr->isDeleted) )
+        {
+            maximum=succPtr->data;
+        }
+        else
+        {
+            ptr=succPtr;
+            succPtr=succPtr->right;
+        }
+        
+    }
+    return maximum;
+
+}
+
