@@ -84,7 +84,8 @@ bool LazyBST::insert(ElementType item)
     }
 
     else //default case breaking, because couldn't understand the otherwise case from the documentation
-    {   
-        return;
+    {
+        return true;
+
     }
 }
