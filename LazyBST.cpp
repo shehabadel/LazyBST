@@ -85,7 +85,7 @@ bool LazyBST::insert(ElementType item)
 
     else //default case breaking, because couldn't understand the otherwise case from the documentation
     {   
-        return;
+        return 0;
     }
 }
 
@@ -104,28 +104,30 @@ ElementType LazyBST::front()
 
     thus after looping, we return minimum's value
     */
-
-   if(empty())
-   {
-       throw "underflow exception, tree is empty!";
-       return;
-   }
     
         //there is no left child, so the root is the minimum element    
+    ElementType minimum;
+    minimum=root->data; //minimum's initial value is root's data, in which we will compare it with other nodes
+
+    if(empty())
+   {
+       throw "underflow exception, tree is empty!";
+       return 0;
+   }
+
     if(root->left=0)
     {
-        return root->data;
+        return minimum;
     }
 
-    ElementType minimum;
+    
     LazyBST::NodePointer ptr,succPtr;
     ptr=root; //ptr points on the root 
     succPtr=root->left; //succPtr points to the left descendent of the root
-    minimum=root->data; //minimum's initial value is root's data, in which we will compare it with other nodes
 
     while(succPtr->left!=0)
     {
-        if( (ptr->data > succPtr->data) && !(succPtr->isDeleted) )
+        if( !(succPtr->isDeleted) )
         {
             minimum=succPtr->data;
         }
@@ -149,22 +151,24 @@ ElementType LazyBST::back()
    if(empty())
    {
        throw "underflow exception, tree is empty!";
-       return;
+       return 0;
    }
+    ElementType maximum;
+    maximum=root->data; //maximum's initial value is root's data, in which we will compare it with other nodes
     if(root->right=0)
     {
         return root->data;
     }
 
-    ElementType maximum;
+
     LazyBST::NodePointer ptr,succPtr;
     ptr=root; //ptr points on the root 
     succPtr=root->right; //succPtr points to the left descendent of the root
-    maximum=root->data; //maximum's initial value is root's data, in which we will compare it with other nodes
+    
 
     while(succPtr->right!=0)
     {
-        if( (ptr->data < succPtr->data) && !(succPtr->isDeleted) )
+        if( !(succPtr->isDeleted) )
         {
             maximum=succPtr->data;
         }
@@ -179,3 +183,7 @@ ElementType LazyBST::back()
 
 }
 
+void LazyBST::traverse() const
+{
+
+}
