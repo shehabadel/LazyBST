@@ -1,0 +1,27 @@
+/*
+void LazyBST::inorder(ostream &out) const
+{
+    inorderAux(out, myRoot);
+    cout << "here in" << endl;
+}
+
+
+void LazyBST::inorderAux(ostream &out,NodePointer subtreeRoot) const
+{
+    cout << "here inaux" << endl;
+    while (subtreeRoot != 0)
+    {
+        inorderAux(out, subtreeRoot->left);  // L operation
+        out << subtreeRoot->data << "  ";    // V operation
+        inorderAux(out, subtreeRoot->right); // R operation
+        
+    }
+}
+
+ostream &operator<<(ostream &out,  LazyBST &LazyBST)
+{
+    cout << "here out" << endl;
+    LazyBST.inorder(out);
+    return out;
+ 
+}*/

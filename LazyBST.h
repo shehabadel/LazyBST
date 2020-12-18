@@ -93,11 +93,13 @@ public:
 	/*--------------------------------------------------------------------
 	 Delete all nodes tagged as deleted within the tree following the description found in the lazy-deletion node class.
 	---------------------------------------------------------------------*/
+	/*void inorder(ostream &out) const;
+	void inorderAux(ostream &out, NodePointer subtreePtr) const;*/
 
 private:
-	NodePointer root;
+	NodePointer myRoot;
 	int mySize; //size of all nodes inside the BST
 	int flaggedSize; //size of isDeleted or flagged nodes inside the BST
 };
 
-
+//ostream &operator<<(ostream &out,  LazyBST &LazyBST1);
