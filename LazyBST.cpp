@@ -16,7 +16,7 @@ inline int LazyBST::size()
     return mySize-flaggedSize; 
 }
 
-void LazyBST::searching(const ElementType &item, bool & found, NodePointer & locPtr, NodePointer & parent ) const
+void LazyBST::searching(const ElementType &item, bool & found, NodePointer & locPtr, NodePointer & parent )
 {
     locPtr = root;
     parent = 0;

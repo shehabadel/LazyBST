@@ -23,7 +23,7 @@ private:
 	};
 	typedef Node* NodePointer;
 	
-	void searching(const ElementType &item, bool & found, NodePointer & locPtr, NodePointer & parent ) const;
+	void searching(const ElementType &item, bool & found, NodePointer & locPtr, NodePointer & parent );
 	/*------------------------------------------------------------------------
      Locate a node containing item and its parent.
      
