@@ -49,12 +49,15 @@ bool LazyBST::insert(ElementType item)
 	 otherwise, the corresponding function is called on the root node. 
 	---------------------------------------------------------------------*/
 
-    LazyBST::NodePointer insertedNode = new Node(item);
+    LazyBST::NodePointer insertedNode;
+    insertedNode->data=item;
+
     if(empty())         //empty tree, so created assigned root to the insertedNode
     {
        root = insertedNode;     //the root node holding the insertedNode
         return true;
     }
+
     bool found=false;
     LazyBST::NodePointer locPtr, parent;
     searching(item, found, locPtr,parent);
