@@ -104,8 +104,14 @@ ElementType LazyBST::front()
 
     thus after looping, we return minimum's value
     */
+
+   if(empty())
+   {
+       throw "underflow exception, tree is empty!";
+       return;
+   }
     
-        //there is no left child, so the root is the minimum element
+        //there is no left child, so the root is the minimum element    
     if(root->left=0)
     {
         return root->data;
@@ -140,6 +146,11 @@ ElementType LazyBST::back()
     /*
     same implementation of front() except ptr's data must be less than succPtr's data
     */
+   if(empty())
+   {
+       throw "underflow exception, tree is empty!";
+       return;
+   }
     if(root->right=0)
     {
         return root->data;
