@@ -160,7 +160,7 @@ ElementType LazyBST::back()
     maximum=root->data; //maximum's initial value is root's data, in which we will compare it with other nodes
     if(root->right=0)
     {
-        return root->data;
+        return maximum;
     }
 
 
@@ -186,7 +186,3 @@ ElementType LazyBST::back()
 
 }
 
-void LazyBST::traverse() const
-{
-
-}
