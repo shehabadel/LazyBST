@@ -60,12 +60,15 @@ void LazyBST::search(const ElementType &item, bool &found, NodePointer &locptr, 
         }
 
         else if (item < parent->data){ // insert to left of parent
+            //cout <<mySize<< " parent L " << parent->data <<" element "<< item<< endl;
             parent->left = locptr;
             mySize++;
+           
         }
       
         else if (item > parent->data) // insert to right of parent
         {
+            //cout << mySize << " parent R " << parent->data << " element " << item << endl;
             parent->right = locptr;
             mySize++;
         }
@@ -98,17 +101,14 @@ ElementType LazyBST::front()
    ptr = myRoot;           //ptr points on the myRoot
    succPtr = myRoot->left; //succPtr points to the left descendent of the myRoot
 
-   while (succPtr->left != 0)
+   while (succPtr != 0)
    {
        if (!(succPtr->isDeleted))
        {
            minimum = succPtr->data;
        }
-        else
-        {
             ptr = succPtr;
-            succPtr = succPtr->left;
-        }   
+            succPtr = succPtr->left;  
     }
     return minimum;
 
@@ -124,7 +124,7 @@ ElementType LazyBST::back()
        return false;
    }
 
-   if(myRoot->right=0)
+   if(myRoot->right==NULL)
         return myRoot->data;
    
 
@@ -133,18 +133,15 @@ ElementType LazyBST::back()
     ptr=myRoot; //ptr points on the myRoot 
     succPtr=myRoot->right; //succPtr points to the left descendent of the myRoot
 
-    while(succPtr->right!=0)
+    while(succPtr!=0)
     {
         if(!(succPtr->isDeleted))
         {
             maximum=succPtr->data;
-
         }
-            else
-            {
-                ptr=succPtr;
-                succPtr=succPtr->right;
-            }
+        
+            ptr=succPtr;
+            succPtr=succPtr->right;
         
     }
     return maximum;

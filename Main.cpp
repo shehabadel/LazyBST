@@ -6,12 +6,14 @@ int main()
 {
     LazyBST l1 ;
     //cout << l1.front() << endl;
-    for (int i = 15; i < 18; i++)
-    {
-        l1.insert(i);
-    }
+    l1.insert(5);
+    l1.insert(10);
+    l1.insert(3);
+    l1.insert(2);
+    l1.insert(12);
+    l1.insert(9);
 
-            /*cout << l1.size() << endl;
+    /*cout << l1.size() << endl;
         l1.erase(5);
         cout << l1.size() << endl;
         l1.erase(5);
@@ -19,7 +21,7 @@ int main()
         l1.insert(4);
         l1.insert(5);
         cout << l1.size() << endl;*/
-            //cout << l1.front() << endl;
-        //cout << l1.back() << endl;
+    cout << l1.front() << endl;
+    cout << l1.back() << endl;
 
 }
