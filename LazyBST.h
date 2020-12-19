@@ -22,8 +22,8 @@ private:
 		{}
 	};
 	typedef Node* NodePointer;
-	
-	void searching(const ElementType &item, bool & found, NodePointer & locPtr, NodePointer & parent ) const;
+
+	void search(const ElementType &item, bool &found, NodePointer &locptr, NodePointer &parent) const;
 	/*------------------------------------------------------------------------
      Locate a node containing item and its parent.
      
@@ -55,9 +55,18 @@ public:
 	 Return true if the argument is in the tree and not tagged as erased and false otherwise.
 	---------------------------------------------------------------------*/
 	ElementType front();
-	/*--------------------------------------------------------------------
-	 Return the minimum non-erased object of this tree by calling front on the root node.
-	---------------------------------------------------------------------*/
+	/* 
+    we have two pointers (ptr and succPtr) and a variable called minimum
+    first we assign the initial value of minimum to myRoot's data,
+    secondly, we assign ptr to myRoot and succPtr to its left child 
+
+    we loop through the tree's left children since they contain all minimum values
+
+    if ptr's data is bigger than succPtr's data and succPtr is not marked as deleted
+    then succPtr's data is less than ptr's data, thus we minimum = succPtr's data
+
+    thus after looping, we return minimum's value
+    */
 	ElementType back();
 	/*--------------------------------------------------------------------
 	 Return the maximum non-erased object of this tree by calling back on the root node.
@@ -66,7 +75,7 @@ public:
 	/*--------------------------------------------------------------------
 	 Perform a breadh-first traversal.
 	---------------------------------------------------------------------*/
-	bool insert(ElementType item);
+	void insert(const ElementType &item);
 	/*--------------------------------------------------------------------
 	 Insert the new object into the tree: 
 	 If the object is already in the tree and not tagged as erased, return false and do nothing; 
@@ -93,13 +102,17 @@ public:
 	/*--------------------------------------------------------------------
 	 Delete all nodes tagged as deleted within the tree following the description found in the lazy-deletion node class.
 	---------------------------------------------------------------------*/
-	/*void inorder(ostream &out) const;
-	void inorderAux(ostream &out, NodePointer subtreePtr) const;*/
+	void inorder(ostream &out) const;
+	void inorderAux(ostream &out, NodePointer subtreePtr) const;
+	void test();
+
 
 private:
 	NodePointer myRoot;
-	int mySize; //size of all nodes inside the BST
+	int mySize=0; //size of all nodes inside the BST
 	int flaggedSize; //size of isDeleted or flagged nodes inside the BST
 };
 
-//ostream &operator<<(ostream &out,  LazyBST &LazyBST1);
+ostream &operator<<(ostream &out,  LazyBST &LazyBST1);
+
+

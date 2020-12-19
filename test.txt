@@ -25,3 +25,16 @@ ostream &operator<<(ostream &out,  LazyBST &LazyBST)
     return out;
  
 }*/
+
+
+
+
+
+
+
+
+
+
+     inorderAux(out, subtreeRoot->left);  // L operation
+        out << subtreeRoot->data << "  ";    // V operation
+        inorderAux(out, subtreeRoot->right); // R operation
