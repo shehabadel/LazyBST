@@ -103,7 +103,9 @@ public:
 	/*--------------------------------------------------------------------
 	 Delete all nodes tagged as deleted within the tree following the description found in the lazy-deletion node class.
 	---------------------------------------------------------------------*/
-	bool printLevel(NodePointer subtree, ElementType level);
+	bool printLevel(NodePointer subtree, ElementType level); 
+
+	/*Recursive function that allows acess to nodes in level order way*/
 
 	void levelOrderTraversal();
 

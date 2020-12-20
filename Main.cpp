@@ -13,13 +13,16 @@ int main()
     l1.insert(12);
     l1.insert(9);
     l1.insert(4);
+    l1.erase(4);
     l1.insert(148);
     l1.insert(18);
     l1.insert(1481);
     l1.insert(148213);
 
+
+
     //cout << l1.size() << endl;
 
 
-    l1.levelOrderTraversal();
+    l1.breadth_first_traversal();
 }

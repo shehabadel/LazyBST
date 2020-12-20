@@ -154,7 +154,7 @@ ElementType LazyBST::back()
 
 bool LazyBST::erase(ElementType item) 
 {
-    if(empty())
+    if(empty()) //checks to see if the tree is empty or not 
     {
         cerr << "empty tree" << endl;
         return false;
@@ -162,20 +162,21 @@ bool LazyBST::erase(ElementType item)
     LazyBST::NodePointer locPtr, parent;
     bool found=false;
     search(item, found, locPtr, parent);
-    if (found==false)
+    if (found==false) //checks if the item to be deleted exists in the tree or not 
     {
         cerr << "item not in the tree" << endl;
         return false;
     }
-        else if (found == true && locPtr->isDeleted)
+        else if (found == true && locPtr->isDeleted) //if the item is already tagged do nothing 
         {
             cerr << "item already tagged as deleted" << endl;
             return false;
         }
-            else if (found==true && !locPtr->isDeleted)
+            else if (found==true && !locPtr->isDeleted) // if the item is found and not tagged then change *isDeleted* flag to true and 
+                                                        // increment the flagged size
             {
                 locPtr->isDeleted = true;
-                cout << "deleted" << endl;
+                cout << item << " is deleted" << endl;
                 flaggedSize++;
                 return true;
             }
@@ -185,20 +186,25 @@ bool LazyBST::erase(ElementType item)
 
 bool LazyBST::printLevel(NodePointer subtree ,ElementType level)
 {
-    if (subtree == NULL)
+    if (this->empty()) //Check if tree is empty
+    {
+        cerr << "empty tree" << endl;
+        return false;
+    }
+
+    if (subtree == NULL) //Reaches a leaf node 
         return false;
 
-    if (level == 0  && !subtree->isDeleted)
+    if (level == 0  && !subtree->isDeleted) //Reaches the required level and checks to see if the node is flagged as deleted or not 
     {
         cout << subtree->data << " ";
         return true;
     }
 
-    bool left = printLevel(subtree->left, level - 1);
-    bool right = printLevel(subtree->right, level - 1);
+    bool left = printLevel(subtree->left, level - 1); //recusivly calls the left child of the node until it reaches the required level
+    bool right = printLevel(subtree->right, level - 1); //recusivly calls the right child of the node until it reaches the required level
 
-
-    return left || right;
+    return left || right; 
 }
      
 
