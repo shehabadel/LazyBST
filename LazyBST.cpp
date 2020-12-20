@@ -129,8 +129,7 @@ ElementType LazyBST::back()
 
    if(myRoot->right==NULL)
         return myRoot->data;
-   
-
+        
     ElementType maximum;
     LazyBST::NodePointer ptr,succPtr;
     ptr=myRoot; //ptr points on the myRoot 
@@ -183,30 +182,7 @@ bool LazyBST::erase(ElementType item)
             return found;
 }
 
-
-bool LazyBST::printLevel(NodePointer subtree ,ElementType level)
-{
-    if (this->empty()) //Check if tree is empty
-    {
-        cerr << "empty tree" << endl;
-        return false;
-    }
-
-    if (subtree == NULL) //Reaches a leaf node 
-        return false;
-
-    if (level == 0  && !subtree->isDeleted) //Reaches the required level and checks to see if the node is flagged as deleted or not 
-    {
-        cout << subtree->data << " ";
-        return true;
-    }
-
-    bool left = printLevel(subtree->left, level - 1); //recusivly calls the left child of the node until it reaches the required level
-    bool right = printLevel(subtree->right, level - 1); //recusivly calls the right child of the node until it reaches the required level
-
-    return left || right; 
-}
-     
+    //************************************************BREADTH_FIRST_TRAVERSAL*************************************************************
 
 void LazyBST::breadth_first_traversal()
 {
@@ -218,11 +194,30 @@ void LazyBST::breadth_first_traversal()
         level++;
 }
 
+        //************************************************AUX_TRAVERSAL*************************************************************
 
+bool LazyBST::printLevel(NodePointer subtree, ElementType level)
+{
+    if (this->empty()) //Check if tree is empty
+    {
+        cerr << "empty tree" << endl;
+        return false;
+    }
 
+    if (subtree == NULL) //Reaches a leaf node
+        return false;
 
+    if (level == 0 && !subtree->isDeleted) //Reaches the required level and checks to see if the node is flagged as deleted or not
+    {
+        cout << subtree->data << " ";
+        return true;
+    }
 
+    bool left = printLevel(subtree->left, level - 1);   //recusivly calls the left child of the node until it reaches the required level
+    bool right = printLevel(subtree->right, level - 1); //recusivly calls the right child of the node until it reaches the required level
 
+    return left || right;
+}
 
 /*void LazyBST::levelOrderTraversal()
 {
