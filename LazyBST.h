@@ -14,6 +14,7 @@ private:
 		Node* left;
 		Node* right;
 		bool isDeleted;
+		ElementType Level;
 
 		Node() :left(0), right(0), isDeleted(0)
 		{}
@@ -102,13 +103,13 @@ public:
 	/*--------------------------------------------------------------------
 	 Delete all nodes tagged as deleted within the tree following the description found in the lazy-deletion node class.
 	---------------------------------------------------------------------*/
-	void inorder(ostream &out) const;
-	void inorderAux(ostream &out, NodePointer subtreePtr) const;
-	void test();
+	bool printLevel(NodePointer subtree, ElementType level);
 
+	void levelOrderTraversal();
 
 private:
 	NodePointer myRoot;
+	ElementType maxLevel=0;
 	int mySize=0; //size of all nodes inside the BST
 	int flaggedSize; //size of isDeleted or flagged nodes inside the BST
 };
