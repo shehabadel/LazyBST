@@ -59,11 +59,11 @@ void LazyBST::search(const ElementType &item, bool &found, NodePointer &locptr, 
             locptr->Level = 0;
             myRoot = locptr;
             mySize++;
-           // cout << "Item " << item << " Level " << locptr->Level << endl;
+           cout << "Item " << item << " Level " << locptr->Level << endl;
         }
         else if (item < parent->data){ // insert to left of parent
             locptr->Level = (parent->Level) + 1;
-            //cout << "Item " << item << " Level " << locptr->Level <<" parent " << parent->data << endl;
+            cout << "Item " << item << " Level " << locptr->Level <<" parent " << parent->data << endl;
             parent->left = locptr;
             mySize++;
         }
@@ -71,7 +71,7 @@ void LazyBST::search(const ElementType &item, bool &found, NodePointer &locptr, 
         else if (item > parent->data) // insert to right of parent
         {
             locptr->Level = (parent->Level) + 1;
-            //cout << "Item " << item << " Level " << locptr->Level << " parent "<< parent->data <<endl;
+            cout << "Item " << item << " Level " << locptr->Level << " parent "<< parent->data <<endl;
             parent->right = locptr;
             mySize++;
         }
@@ -196,7 +196,7 @@ void LazyBST::breadth_first_traversal()
 
         //************************************************AUX_TRAVERSAL*************************************************************
 
-bool LazyBST::printLevel(NodePointer subtree, ElementType level)
+bool LazyBST::printLevel(NodePointer subtree, ElementType level) const
 {
     if (this->empty()) //Check if tree is empty
     {
@@ -219,33 +219,64 @@ bool LazyBST::printLevel(NodePointer subtree, ElementType level)
     return left || right;
 }
 
-/*void LazyBST::levelOrderTraversal()
+
+int LazyBST::heightAux(NodePointer root)
 {
-    NodePointer root = myRoot;
-
-    Queue q1(this->size());
-
-    q1.enqueue(root->data);
-
-    // pointer to store rootent node
-
-    // loop till queue is empty
-    while (!q1.empty())
+    if (root == NULL)
+        return 0; //empty tree
+    else
     {
-        // process each node in queue and enqueue their
-        // non-empty left and right child to queue
-        root->data = q1.front();
-        cout << root->data << " ";
-        q1.dequeue();
-
-        
-
-        if (root->left)
-            cout << "Item " << endl;
-            q1.enqueue(root->left->data);
-
-        if (root->right)
-            q1.enqueue(root->right->data);
-            cout << "Item " << endl;
+        return 1+max(heightAux(root->left), heightAux(root->right));
     }
-}*/
+}
+
+int LazyBST::height()
+{
+    return heightAux(myRoot);
+}
+bool LazyBST::member(ElementType const &item)
+{
+    if (empty())
+    {
+        cerr << "tree is empty" << endl;
+        return false;
+    }
+
+    LazyBST::NodePointer locPtr, parent;
+    bool found = false;
+    search(item, found, locPtr, parent);
+    if (found == false)
+    {
+        cerr << "item not in the tree" << endl;
+        return false;
+    }
+    else if (found == true && locPtr->isDeleted) //if the item is already tagged do nothing
+    {
+        cerr << "item tagged as deleted" << endl;
+        return false;
+    }
+    else if (found == true && !locPtr->isDeleted) // if the item is found and not tagged then change *isDeleted* flag to true and
+                                                  // increment the flagged size
+    {
+        cout << item << " is in the tree at level " << locPtr->Level <<" and its parent is " << parent->data<<   endl;
+        return true;
+    }
+    return found;
+}
+
+void LazyBST::cleanAUX(NodePointer current)
+{
+    if (current != NULL)
+        return;
+
+    cleanAUX(current->left);
+    cleanAUX(current->right);
+
+    if (current->isDeleted == true)
+        delete[] current;
+}
+
+void LazyBST::clean()
+{
+    cleanAUX(myRoot);
+}

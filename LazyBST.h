@@ -11,10 +11,11 @@ private:
 	{
 	public:
 		ElementType data;
+		ElementType Level;
 		Node* left;
 		Node* right;
 		bool isDeleted;
-		ElementType Level;
+		
 
 		Node() :left(0), right(0), isDeleted(0)
 		{}
@@ -47,7 +48,8 @@ public:
 	/*--------------------------------------------------------------------
 	 Returns the number of nodes in the tree not including nodes tagged as erased.
 	 --------------------------------------------------------------------*/
-	int height(NodePointer root);
+	int heightAux(NodePointer root);
+	int height();
 	/*--------------------------------------------------------------------
 	 Returns the height of the tree including nodes tagged as erased.
     ---------------------------------------------------------------------*/
@@ -103,11 +105,11 @@ public:
 	/*--------------------------------------------------------------------
 	 Delete all nodes tagged as deleted within the tree following the description found in the lazy-deletion node class.
 	---------------------------------------------------------------------*/
-	bool printLevel(NodePointer subtree, ElementType level); 
+	bool printLevel(NodePointer subtree, ElementType level)const; 
 
 	/*Recursive function that allows acess to nodes in level order way*/
-
-	void levelOrderTraversal();
+	void levelOrderTraversal()const;
+	void cleanAUX(NodePointer current);
 
 private:
 	NodePointer myRoot;
@@ -116,6 +118,5 @@ private:
 	int flaggedSize; //size of isDeleted or flagged nodes inside the BST
 };
 
-ostream &operator<<(ostream &out,  LazyBST &LazyBST1);
 
 

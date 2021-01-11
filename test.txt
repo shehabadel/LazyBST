@@ -38,3 +38,62 @@ ostream &operator<<(ostream &out,  LazyBST &LazyBST)
      inorderAux(out, subtreeRoot->left);  // L operation
         out << subtreeRoot->data << "  ";    // V operation
         inorderAux(out, subtreeRoot->right); // R operation
+
+
+
+
+
+BFS implementation using queues
+
+        /*void LazyBST::levelOrderTraversal()
+{
+    NodePointer root = myRoot;
+
+    Queue q1(this->size());
+
+    q1.enqueue(root->data);
+
+    // pointer to store rootent node
+
+    // loop till queue is empty
+    while (!q1.empty())
+    {
+        // process each node in queue and enqueue their
+        // non-empty left and right child to queue
+        root->data = q1.front();
+        cout << root->data << " ";
+        q1.dequeue();
+
+        
+
+        if (root->left)
+            cout << "Item " << endl;
+            q1.enqueue(root->left->data);
+
+        if (root->right)
+            q1.enqueue(root->right->data);
+            cout << "Item " << endl;
+    }
+}*/
+
+
+
+
+void LazyBST::InorderAUX(NodePointer ptr)
+{
+
+    if (ptr == NULL)
+        return;
+
+    if(!ptr->isDeleted)
+    {
+        InorderAUX(ptr->left);
+        cout << ptr->data << " ";
+        InorderAUX(ptr->right);
+    }
+}
+
+void LazyBST::Inorder()
+{
+     InorderAUX(myRoot);
+}
