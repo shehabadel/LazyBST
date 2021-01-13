@@ -110,6 +110,11 @@ public:
 	/*Recursive function that allows acess to nodes in level order way*/
 	void levelOrderTraversal()const;
 	void cleanAUX(NodePointer current);
+	void delete_erasedAUX(NodePointer &ptr);
+	void remove(const ElementType &item);
+
+	void inorderAux(NodePointer subtreeRoot) const;
+	void inorder() const;
 
 private:
 	NodePointer myRoot;

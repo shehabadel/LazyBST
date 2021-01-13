@@ -13,7 +13,7 @@ inline bool LazyBST::empty() const
 //returns number of unerased nodes inside the BST
  int LazyBST::size()
 {
-    return mySize-flaggedSize; 
+    return mySize-flaggedSize;
 }
         //************************************************SEARCH*************************************************************
 
@@ -26,15 +26,14 @@ void LazyBST::search(const ElementType &item, bool &found, NodePointer &locptr, 
     {
         if (item < locptr->data) // descend left
         {
+
             parent = locptr;
             locptr = locptr->left;
-            
         }
         else if (locptr->data < item) // descend right
         {
             parent = locptr;
             locptr = locptr->right;
-            
         }
         else // item found
             found = true;
@@ -55,7 +54,7 @@ void LazyBST::search(const ElementType &item, bool &found, NodePointer &locptr, 
         locptr = new Node(item);
         if (parent == 0)
         { // empty tree
-           
+
             locptr->Level = 0;
             myRoot = locptr;
             mySize++;
@@ -67,7 +66,7 @@ void LazyBST::search(const ElementType &item, bool &found, NodePointer &locptr, 
             parent->left = locptr;
             mySize++;
         }
-      
+
         else if (item > parent->data) // insert to right of parent
         {
             locptr->Level = (parent->Level) + 1;
@@ -78,6 +77,7 @@ void LazyBST::search(const ElementType &item, bool &found, NodePointer &locptr, 
     }
     else if (found && locptr->isDeleted)
     {
+        cout << "item in the tree and tagged as deleted" << endl;
         locptr->isDeleted = false;
         flaggedSize--;
     }
@@ -111,7 +111,7 @@ ElementType LazyBST::front()
            minimum = succPtr->data;
        }
             ptr = succPtr;
-            succPtr = succPtr->left;  
+            succPtr = succPtr->left;
     }
     return minimum;
 
@@ -129,10 +129,10 @@ ElementType LazyBST::back()
 
    if(myRoot->right==NULL)
         return myRoot->data;
-        
+
     ElementType maximum;
     LazyBST::NodePointer ptr,succPtr;
-    ptr=myRoot; //ptr points on the myRoot 
+    ptr=myRoot; //ptr points on the myRoot
     succPtr=myRoot->right; //succPtr points to the left descendent of the myRoot
 
     while(succPtr!=0)
@@ -141,19 +141,19 @@ ElementType LazyBST::back()
         {
             maximum=succPtr->data;
         }
-        
+
             ptr=succPtr;
             succPtr=succPtr->right;
-        
+
     }
     return maximum;
 
 }
             //************************************************ERASE*************************************************************
 
-bool LazyBST::erase(ElementType item) 
+bool LazyBST::erase(ElementType item)
 {
-    if(empty()) //checks to see if the tree is empty or not 
+    if(empty()) //checks to see if the tree is empty or not
     {
         cerr << "empty tree" << endl;
         return false;
@@ -161,17 +161,17 @@ bool LazyBST::erase(ElementType item)
     LazyBST::NodePointer locPtr, parent;
     bool found=false;
     search(item, found, locPtr, parent);
-    if (found==false) //checks if the item to be deleted exists in the tree or not 
+    if (found==false) //checks if the item to be deleted exists in the tree or not
     {
         cerr << "item not in the tree" << endl;
         return false;
     }
-        else if (found == true && locPtr->isDeleted) //if the item is already tagged do nothing 
+        else if (found == true && locPtr->isDeleted) //if the item is already tagged do nothing
         {
             cerr << "item already tagged as deleted" << endl;
             return false;
         }
-            else if (found==true && !locPtr->isDeleted) // if the item is found and not tagged then change *isDeleted* flag to true and 
+            else if (found==true && !locPtr->isDeleted) // if the item is found and not tagged then change *isDeleted* flag to true and
                                                         // increment the flagged size
             {
                 locPtr->isDeleted = true;
@@ -187,7 +187,7 @@ bool LazyBST::erase(ElementType item)
 void LazyBST::breadth_first_traversal()
 {
     LazyBST::NodePointer root = myRoot;
-  
+
     int level = 0;
 
     while (printLevel(root, level))
@@ -264,19 +264,76 @@ bool LazyBST::member(ElementType const &item)
     return found;
 }
 
-void LazyBST::cleanAUX(NodePointer current)
-{
-    if (current != NULL)
-        return;
-
-    cleanAUX(current->left);
-    cleanAUX(current->right);
-
-    if (current->isDeleted == true)
-        delete[] current;
-}
 
 void LazyBST::clean()
 {
-    cleanAUX(myRoot);
+    delete_erasedAUX(myRoot);
 }
+
+void LazyBST::delete_erasedAUX(NodePointer &ptr)
+{
+
+    if (ptr == 0)
+    {
+        return;
+    }
+    else if (ptr->isDeleted == true)
+    {
+        remove(ptr->data);
+    
+    }
+    else{
+    for (int i = 0; i < flaggedSize;i++)
+    {
+        delete_erasedAUX(ptr->left);
+        delete_erasedAUX(ptr->right);
+    }
+    }
+}
+
+
+void LazyBST::remove(const ElementType &item)
+{
+    bool found;
+    NodePointer locptr, parent;
+
+    search(item, found, locptr, parent);
+
+    if (found == false)
+    {
+        cout << "Item is not in the BST" << endl;
+        return;
+    }
+    if (locptr->left != 0 && locptr->right != 0)
+    {
+        NodePointer y = locptr->right;
+        for (parent = locptr; y->left != 0;)
+        {
+            parent = y;
+            y = y->left;
+        }
+        locptr->data = y->data;
+        locptr->isDeleted = false;
+        locptr = y;
+    }
+
+    NodePointer z = locptr->left;
+    if (z == NULL)
+    {
+        z = locptr->right;
+    }
+    if (parent == NULL)
+    {
+        myRoot = z;
+    }
+    else if (parent->left == locptr)
+    {
+        parent->left = z;
+    }
+    else
+    {
+        parent->right = z;
+    }
+    delete locptr;
+}
+
