@@ -189,7 +189,7 @@ void LazyBST::breadth_first_traversal()
 {
     queue<NodePointer> q;
     if (empty())
-        cout << "Tree is empty" << endl;
+        cerr << "Tree is empty" << endl;
     LazyBST::NodePointer root = myRoot;
     q.push(root);
     while (!q.empty())

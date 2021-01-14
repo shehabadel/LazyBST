@@ -12,11 +12,12 @@ int main()
 
 BreakOperation:
     cout << "\nChoose an operation of the following by typing in the operation name:" << endl;
-    cout << "\nInsert || Traverse || Size || Minimum(front) || Maximum(back) || Height || Erase || Clear || Clean || You can exit by typing in -999\n";
+    cout << "\ninsert || traverse || size || front(Min) || back(Max) || Height || Erase || Clear || Clean || member || You can exit by typing in -999\n\n";
+    cout << "Perform: ";
     cin >> x;
+    cout << "\n";
 
-
-   Insert: if (x == "Insert")
+   Insert: if (x == "insert")
     {
         ElementType number;
         for (;;)
@@ -30,41 +31,57 @@ BreakOperation:
         }
     }
 
-    Traverse: if (x== "Traverse")
+    Traverse: if (x== "traverse" && !l1.empty())
     {
         l1.breadth_first_traversal();
         goto BreakOperation;
     }
-
-    Size: if (x=="Size")
+    else if(x == "traverse" && l1.empty())
+        {
+            cout << "\n***ERORR:TREE IS EMPTY***" << endl;
+            goto BreakOperation;
+    }
+    Size: if (x=="size")
     {
-        cout << "tree size is: "<< l1.size()<<"\n";
+        cout << "\ntree size is: "<< l1.size()<<"\n";
+        goto BreakOperation;
+    }
+    
+
+    Front: if (x=="front" && !l1.empty())
+    {
+        cout << "\nSmallest Number is: " << l1.front() << endl;
+        goto BreakOperation;
+    }
+    else if (x == "front" && l1.empty())
+    {
+        cout << "\n***ERORR:TREE IS EMPTY***" << endl;
         goto BreakOperation;
     }
 
-    Front: if (x=="Front")
+    Back: if (x=="back" && !l1.empty())
     {
-        cout << "Smallest Number is: " << l1.front() << endl;
+        cout << "\nLargest Number is: " << l1.back() << endl;
         goto BreakOperation;
     }
-    Back: if (x=="Back")
+    else if (x == "back" && l1.empty())
     {
-        l1.back();
-        goto BreakOperation;
-    }
-
-    Height: if (x=="Height")
-    {
-        l1.height();
+        cout << "\n***ERORR:TREE IS EMPTY***" << endl;
         goto BreakOperation;
     }
 
-    Erase: if (x=="Erase")
+    Height: if (x=="height")
+    {
+        cout << l1.height()<<"\n";
+        goto BreakOperation;
+    }
+
+    Erase: if (x=="erase")
     {
         ElementType number;
         for (;;)
         {
-            cout << "Enter numbers to tag as deleted in the tree: ";
+            cout << "\nEnter numbers to tag as deleted in the tree: ";
             cin >> number;
             if (number == -999)
                 goto BreakOperation;
@@ -73,17 +90,35 @@ BreakOperation:
         }
     }
 
-    Clear: if (x=="Clear")
+    Clear: if (x=="clear")
     {
         l1.clear();
-        cout << "Emptying the tree" << endl;
+        cout << "\nEmptying the tree....." << endl;
         goto BreakOperation;
     }
 
-    Clean: if (x=="Clean")
+    Clean: if (x=="clean")
     {
         l1.clean();
-        cout << "cleaning tagged nodes" << endl;
+        cout << "\ncleaning tagged nodes....." << endl;
+        goto BreakOperation;
+    }
+    Member: if (x=="member")
+    {
+        ElementType number;
+        for (;;)
+        {
+            cout << "\nEnter numbers to search for in the tree: ";
+            cin >> number;
+            if (number == -999)
+                goto BreakOperation;
+            l1.member(number);
+            cout << endl;
+        }
+    }
+    else 
+    {
+        cout << "\n***ERROR: CHOOSE AN EXISTING OPERATION***\n";
         goto BreakOperation;
     }
 }
