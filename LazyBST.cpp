@@ -217,7 +217,7 @@ int LazyBST::heightAux(NodePointer root)
     {
         return 1 + max(heightAux(root->left), heightAux(root->right));
     }
-    }
+}
             //************************************************---HEIGHT---*************************************************************
 
     int LazyBST::height()
@@ -253,11 +253,6 @@ bool LazyBST::member(ElementType const &item)
         return true;
     }
     return found;
-}
-            //************************************************---INORDER---*************************************************************
-void LazyBST::inorder()
-{
-    inorderAux(myRoot);
 }
             //************************************************---REMOVE---*************************************************************
 void LazyBST::remove(const ElementType &item)
@@ -311,23 +306,23 @@ void LazyBST::remove(const ElementType &item)
     delete locptr;
 }
 
-            //************************************************---INORDER_AUX---*************************************************************
-void LazyBST::inorderAux(NodePointer subtreeRoot)
+            //************************************************---cleanTraverse---*************************************************************
+void LazyBST::cleanTraverse(NodePointer subtreeRoot)
 {
     if (subtreeRoot != 0)
     {
-        inorderAux(subtreeRoot->left); // L operation
+        cleanTraverse(subtreeRoot->left); // L operation
         if (subtreeRoot->isDeleted)
         {
             cleanQ.push(subtreeRoot->data); // Push operation
         }                              
-        inorderAux(subtreeRoot->right); // R operation
+        cleanTraverse(subtreeRoot->right); // R operation
         }
 }
             //************************************************---CLEAN---*************************************************************
 void LazyBST::clean()
 {
-    inorder();
+    cleanTraverse(myRoot);
     for (int i = 0; i < flaggedSize; i++)
     {
         ElementType deletedElement = cleanQ.front();

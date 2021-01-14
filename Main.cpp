@@ -38,6 +38,9 @@ int main()
     
 
     l1.erase(21);
+    l1.clean();
+    l1.insert(21);
+    cout << endl;
     l1.breadth_first_traversal();
     /*l1.erase(15);
     l1.erase(25);
@@ -46,7 +49,7 @@ int main()
     l1.erase(16);
     l1.erase(27);
 
-    l1.clean();
+    
     cout << endl;
   
     

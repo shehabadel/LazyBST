@@ -49,8 +49,8 @@ public:
 	/*--------------------------------------------------------------------
 	 Returns the number of nodes in the tree not including nodes tagged as erased.
 	 --------------------------------------------------------------------*/
-	int heightAux(NodePointer root);
 	int height();
+	int heightAux(NodePointer root);
 	/*--------------------------------------------------------------------
 	 Returns the height of the tree including nodes tagged as erased.
     ---------------------------------------------------------------------*/
@@ -98,23 +98,18 @@ public:
 	 otherwise, the corresponding function is called on the root node.
 	---------------------------------------------------------------------*/
 	void clear();
+	void clearAUX(NodePointer node);
 	/*--------------------------------------------------------------------
 	 Delete all the nodes in the tree.
 	---------------------------------------------------------------------*/
-
 	void clean();
+	void cleanAUX(NodePointer current);
+	void cleanTraverse(NodePointer subtreeRoot);
 	/*--------------------------------------------------------------------
 	 Delete all nodes tagged as deleted within the tree following the description found in the lazy-deletion node class.
 	---------------------------------------------------------------------*/
-	void cleanAUX(NodePointer current);
-	void delete_erasedAUX(NodePointer &ptr);
 	void remove(const ElementType &item);
-
-	void inorderAux(NodePointer subtreeRoot);
-	void inorderAuxClear(NodePointer subtreeRoot);
-	void inorder();
-
-	void clearAUX(NodePointer node);
+	
 
 private:
 	NodePointer myRoot;
