@@ -11,13 +11,13 @@ inline bool LazyBST::empty() const
     return myRoot == 0;
 }
 
-//returns number of unerased nodes inside the BST
- int LazyBST::size()
+        //************************************************---Size---*************************************************************
+int LazyBST::size()
 {
     return mySize-flaggedSize;
 }
-        //************************************************SEARCH*************************************************************
 
+        //************************************************---SEARCH---*************************************************************
 void LazyBST::search(const ElementType &item, bool &found, NodePointer &locptr, NodePointer &parent) const
 {
     locptr = myRoot;
@@ -188,6 +188,8 @@ bool LazyBST::erase(ElementType item)
 void LazyBST::breadth_first_traversal()
 {
     queue<NodePointer> q;
+    if (empty())
+        cout << "Tree is empty" << endl;
     LazyBST::NodePointer root = myRoot;
     q.push(root);
     while (!q.empty())
@@ -345,5 +347,7 @@ void LazyBST::clearAUX(NodePointer root)
         clearAUX(root->right);
         root->right = NULL;
         myRoot = nullptr;
+        mySize = 0;
+        flaggedSize = 0;
     }
 }
