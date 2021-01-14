@@ -3,9 +3,11 @@
 #include "iostream"
 using namespace std;
 
-LazyBST::LazyBST(): myRoot(0),mySize(0),flaggedSize(0) //empty BST constructor
+ //empty BST constructor
+LazyBST::LazyBST(): myRoot(0),mySize(0),flaggedSize(0)
 {}
 
+//checks if root node is empty or not
 inline bool LazyBST::empty() const
 {
     return myRoot == 0;
@@ -18,6 +20,11 @@ inline bool LazyBST::empty() const
 }
         //************************************************SEARCH*************************************************************
 
+//searches for specific item inside the tree
+//used in Insert, Remove, Member, Erase functions
+//search takes two pointers locPtr, Parent and manipulate them
+//parent is a successor pointer for locPtr
+//locPtr identifies the place of item
 void LazyBST::search(const ElementType &item, bool &found, NodePointer &locptr, NodePointer &parent) const
 {
     locptr = myRoot;
@@ -41,6 +48,16 @@ void LazyBST::search(const ElementType &item, bool &found, NodePointer &locptr, 
     }
 }
                 //************************************************INSERT*************************************************************
+//Inserting an item inside the tree
+//first we check if the item exists inside the tree
+//if it does not exist, we create a new node
+//then we check if the tree is empty (parent==0)
+//we assign myRoot to locPtr, increment tree's size, and assign Level to the node (locPtr)
+//else if item's data is less than the parent's node, we insert left, set node's level as parent's level +1
+//else if item's data is bigger than parent's node, we insert right, set node's level as parent's level +1
+//else if item's found and tagged as deleted, we remove the tag
+//else the item is already in the tree and can't be inserted
+
  void LazyBST::insert(const ElementType &item)
 {
     LazyBST::NodePointer
@@ -88,6 +105,10 @@ void LazyBST::search(const ElementType &item, bool &found, NodePointer &locptr, 
 
              //************************************************FRONT*************************************************************
 
+//front returns the data of the smallest item in the tree
+//first we check if tree is empty
+//secondly if there is no left child, then the root is the smallest node
+//else we descend to the leftmost node which will contain the smallest element
 ElementType LazyBST::front()
 
 {
@@ -118,7 +139,10 @@ ElementType LazyBST::front()
 
 }
             //************************************************BACK*************************************************************
-
+//back returns the data of the largest item in the tree
+//first we check if tree is empty
+//secondly if there is no right child, then the root is the largest node
+//else we descend to the rightmost node which will contain the largest element
 ElementType LazyBST::back()
 
 {
@@ -151,6 +175,13 @@ ElementType LazyBST::back()
 
 }
             //************************************************ERASE*************************************************************
+//erase tags an element as deleted
+//first we check if the tree is empty or not
+//secondly we call search and search for the item
+//returning false if the item is not in the tree
+//if the item is inside the tree and is tagged, we return false
+//else if the item is inside the tree and is not tagged we tag it
+//and increment the flaggedSize, then return true;
 
 bool LazyBST::erase(ElementType item)
 {
@@ -180,11 +211,19 @@ bool LazyBST::erase(ElementType item)
                 flaggedSize++;
                 return true;
             }
-            return found;
+    return found;
 }
 
     //************************************************BREADTH_FIRST_TRAVERSAL*************************************************************
-
+//breadth first traversal is a level order traversal
+//first we initiliaze a queue in which we push the root first inside the queue
+//then we loop on the queue while it is not empty
+//
+//we output the tagged elements with x beside it
+//if the left of the front element is not null we push it to the queue
+//if the right of the front element is not null we push it to the queue
+//then we dequeue the front element 
+//
 void LazyBST::breadth_first_traversal()
 {
     queue<NodePointer> q;
@@ -208,7 +247,10 @@ void LazyBST::breadth_first_traversal()
 }
 
                 //************************************************HEIGHT_AUX*************************************************************
-
+//Height Aux is called inside height since we cannot access root in the main function
+//if tree is empty we return 0
+//else we return 1 + (the comparison between the left and right tree recursively)
+//max determines the biggest element of the two arguments
 int LazyBST::heightAux(NodePointer root)
 {
     if (root == NULL)
@@ -219,12 +261,18 @@ int LazyBST::heightAux(NodePointer root)
     }
 }
             //************************************************---HEIGHT---*************************************************************
-
+    //height calls heightAux, check heightAux for explanation
     int LazyBST::height()
     {
         return heightAux(myRoot);
     }
             //************************************************---MEMBER---*************************************************************
+  //member determines if a specific element is in the tree and not tagged
+  //first we check if the tree is empty
+  //secondly we search for the item in the tree
+  //if not found, return false
+  //else if found and tagged as deleted return false
+  //else if found and is not deleted return true
 bool LazyBST::member(ElementType const &item)
 {
     if (empty())
@@ -241,13 +289,12 @@ bool LazyBST::member(ElementType const &item)
         cerr << "item not in the tree" << endl;
         return false;
     }
-    else if (found == true && locPtr->isDeleted) //if the item is already tagged do nothing
+    else if (found == true && locPtr->isDeleted) //item is found and is erased
     {
         cerr << "item tagged as deleted" << endl;
         return false;
     }
-    else if (found == true && !locPtr->isDeleted) // if the item is found and not tagged then change *isDeleted* flag to true and
-                                                      // increment the flagged size
+    else if (found == true && !locPtr->isDeleted) // item is found but not erased
     {
         cout << item << " is in the tree at level " << locPtr->Level << " and its parent is " << parent->data << endl;
         return true;
