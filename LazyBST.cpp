@@ -187,172 +187,151 @@ bool LazyBST::erase(ElementType item)
 
 void LazyBST::breadth_first_traversal()
 {
+    queue<NodePointer> q;
     LazyBST::NodePointer root = myRoot;
-
-    int level = 0;
-
-    while (printLevel(root, level))
-        level++;
-}
-
-        //************************************************AUX_TRAVERSAL*************************************************************
-
-bool LazyBST::printLevel(NodePointer subtree, ElementType level) const
-{
-    if (this->empty()) //Check if tree is empty
+    q.push(root);
+    while (!q.empty())
     {
-        cerr << "empty tree" << endl;
-        return false;
-    }
-
-    if (subtree == NULL) //Reaches a leaf node
-        return false;
-
-    if (level == 0 && !subtree->isDeleted) //Reaches the required level and checks to see if the node is flagged as deleted or not
-    {
-        cout << subtree->data << " ";
-        return true;
-    }
-
-    bool left = printLevel(subtree->left, level - 1);   //recusivly calls the left child of the node until it reaches the required level
-    bool right = printLevel(subtree->right, level - 1); //recusivly calls the right child of the node until it reaches the required level
-
-    return left || right;
-}
-
-
-int LazyBST::heightAux(NodePointer root)
-{
-    if (root == NULL)
-        return 0; //empty tree
-    else
-    {
-        return 1+max(heightAux(root->left), heightAux(root->right));
+        cout << (q.front()->data) << " ";
+        if ((q.front()->left) != nullptr && q.front()->left->isDeleted == 0)
+            q.push(q.front()->left);
+        if ((q.front()->right) != nullptr && q.front()->right->isDeleted == 0)
+            q.push(q.front()->right);
+        q.pop();
     }
 }
+ 
 
-int LazyBST::height()
-{
-    return heightAux(myRoot);
-}
-bool LazyBST::member(ElementType const &item)
-{
-    if (empty())
+    int LazyBST::heightAux(NodePointer root)
     {
-        cerr << "tree is empty" << endl;
-        return false;
-    }
-
-    LazyBST::NodePointer locPtr, parent;
-    bool found = false;
-    search(item, found, locPtr, parent);
-    if (found == false)
-    {
-        cerr << "item not in the tree" << endl;
-        return false;
-    }
-    else if (found == true && locPtr->isDeleted) //if the item is already tagged do nothing
-    {
-        cerr << "item tagged as deleted" << endl;
-        return false;
-    }
-    else if (found == true && !locPtr->isDeleted) // if the item is found and not tagged then change *isDeleted* flag to true and
-                                                  // increment the flagged size
-    {
-        cout << item << " is in the tree at level " << locPtr->Level <<" and its parent is " << parent->data<<   endl;
-        return true;
-    }
-    return found;
-}
-
-void LazyBST::inorder()
-{
-    inorderAux(myRoot);
-}
-
-void LazyBST::remove(const ElementType &item)
-{
-    bool found;
-    NodePointer locptr, parent;
-
-    search(item, found, locptr, parent);
-
-    if (found == false)
-    {
-        cout << "Item is not in the BST" << endl;
-        return;
-    }
-    if (locptr->left != 0 && locptr->right != 0)
-    {
-        NodePointer y = locptr->right;
-        for (parent = locptr; y->left != 0;)
+        if (root == NULL)
+            return 0; //empty tree
+        else
         {
-            parent = y;
-            y = y->left;
+            return 1 + max(heightAux(root->left), heightAux(root->right));
         }
-        locptr->data = y->data;
-        locptr->isDeleted = false;
-        locptr = y;
     }
-    NodePointer z = locptr->left;
-    if (z == NULL)
-    {
-        z = locptr->right;
-    }
-    if (parent == NULL)
-    {
-        myRoot = z;
-    }
-    else if (parent->left == locptr)
-    {
-        parent->left = z;
-    }
-    else
-    {
-        parent->right = z;
-    }
-    delete locptr;
-}
 
-void LazyBST::inorderAux(NodePointer subtreeRoot) 
-{
-    if (subtreeRoot != 0)
+    int LazyBST::height()
     {
-        inorderAux(subtreeRoot->left); // L operation
-        if (subtreeRoot->isDeleted)
+        return heightAux(myRoot);
+    }
+    bool LazyBST::member(ElementType const &item)
+    {
+        if (empty())
         {
-            cleanQ.push(subtreeRoot->data);
-        }                               // V operation
-        inorderAux(subtreeRoot->right); // R operation
-    }
-}
+            cerr << "tree is empty" << endl;
+            return false;
+        }
 
-void LazyBST::clean()
-{
-    inorder();
-    for (int i = 0; i < flaggedSize; i++)
+        LazyBST::NodePointer locPtr, parent;
+        bool found = false;
+        search(item, found, locPtr, parent);
+        if (found == false)
+        {
+            cerr << "item not in the tree" << endl;
+            return false;
+        }
+        else if (found == true && locPtr->isDeleted) //if the item is already tagged do nothing
+        {
+            cerr << "item tagged as deleted" << endl;
+            return false;
+        }
+        else if (found == true && !locPtr->isDeleted) // if the item is found and not tagged then change *isDeleted* flag to true and
+                                                      // increment the flagged size
+        {
+            cout << item << " is in the tree at level " << locPtr->Level << " and its parent is " << parent->data << endl;
+            return true;
+        }
+        return found;
+    }
+
+    void LazyBST::inorder()
     {
-        ElementType deletedElement = cleanQ.front();
-        remove(deletedElement);
-        cleanQ.pop();
+        inorderAux(myRoot);
     }
-}
 
-
-
-void LazyBST:: clear(){
-    clearAUX(myRoot);
-}
-
-void LazyBST:: clearAUX(NodePointer root)
-{
-    if (root != NULL)
+    void LazyBST::remove(const ElementType &item)
     {
-        clearAUX(root->left);
-        root->left=NULL;
-        clearAUX(root->right);
-        root->right=NULL;
-        myRoot=nullptr;
-    }
-}
+        bool found;
+        NodePointer locptr, parent;
 
+        search(item, found, locptr, parent);
+
+        if (found == false)
+        {
+            cout << "Item is not in the BST" << endl;
+            return;
+        }
+        if (locptr->left != 0 && locptr->right != 0)
+        {
+            NodePointer y = locptr->right;
+            for (parent = locptr; y->left != 0;)
+            {
+                parent = y;
+                y = y->left;
+            }
+            locptr->data = y->data;
+            locptr->isDeleted = false;
+            locptr = y;
+        }
+        NodePointer z = locptr->left;
+        if (z == NULL)
+        {
+            z = locptr->right;
+        }
+        if (parent == NULL)
+        {
+            myRoot = z;
+        }
+        else if (parent->left == locptr)
+        {
+            parent->left = z;
+        }
+        else
+        {
+            parent->right = z;
+        }
+        delete locptr;
+    }
+
+    void LazyBST::inorderAux(NodePointer subtreeRoot)
+    {
+        if (subtreeRoot != 0)
+        {
+            inorderAux(subtreeRoot->left); // L operation
+            if (subtreeRoot->isDeleted)
+            {
+                cleanQ.push(subtreeRoot->data);
+            }                               // V operation
+            inorderAux(subtreeRoot->right); // R operation
+        }
+    }
+
+    void LazyBST::clean()
+    {
+        inorder();
+        for (int i = 0; i < flaggedSize; i++)
+        {
+            ElementType deletedElement = cleanQ.front();
+            remove(deletedElement);
+            cleanQ.pop();
+        }
+    }
+
+    void LazyBST::clear()
+    {
+        clearAUX(myRoot);
+    }
+
+    void LazyBST::clearAUX(NodePointer root)
+    {
+        if (root != NULL)
+        {
+            clearAUX(root->left);
+            root->left = NULL;
+            clearAUX(root->right);
+            root->right = NULL;
+            myRoot = nullptr;
+        }
+    }
