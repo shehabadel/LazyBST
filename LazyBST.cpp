@@ -192,10 +192,16 @@ void LazyBST::breadth_first_traversal()
     q.push(root);
     while (!q.empty())
     {
+        if ((q.front()->isDeleted==0))
         cout << (q.front()->data) << " ";
-        if ((q.front()->left) != nullptr && q.front()->left->isDeleted == 0)
+
+        else
+        cout << (q.front()->data) << "x ";
+
+        if ((q.front()->left) != nullptr)
             q.push(q.front()->left);
-        if ((q.front()->right) != nullptr && q.front()->right->isDeleted == 0)
+
+        if ((q.front()->right) != nullptr)
             q.push(q.front()->right);
         q.pop();
     }
