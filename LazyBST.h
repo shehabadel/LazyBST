@@ -106,10 +106,6 @@ public:
 	/*--------------------------------------------------------------------
 	 Delete all nodes tagged as deleted within the tree following the description found in the lazy-deletion node class.
 	---------------------------------------------------------------------*/
-	bool printLevel(NodePointer subtree, ElementType level)const; 
-
-	/*Recursive function that allows acess to nodes in level order way*/
-	void levelOrderTraversal()const;
 	void cleanAUX(NodePointer current);
 	void delete_erasedAUX(NodePointer &ptr);
 	void remove(const ElementType &item);
