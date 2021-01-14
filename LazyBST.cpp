@@ -1,4 +1,5 @@
 #include "LazyBST.h"
+#include <queue>
 #include "iostream"
 using namespace std;
 
@@ -7,7 +8,7 @@ LazyBST::LazyBST(): myRoot(0),mySize(0),flaggedSize(0) //empty BST constructor
 
 inline bool LazyBST::empty() const
 {
-    return mySize == 0;
+    return myRoot == 0;
 }
 
 //returns number of unerased nodes inside the BST
@@ -264,33 +265,10 @@ bool LazyBST::member(ElementType const &item)
     return found;
 }
 
-
-void LazyBST::clean()
+void LazyBST::inorder()
 {
-    delete_erasedAUX(myRoot);
+    inorderAux(myRoot);
 }
-
-void LazyBST::delete_erasedAUX(NodePointer &ptr)
-{
-
-    if (ptr == 0)
-    {
-        return;
-    }
-    else if (ptr->isDeleted == true)
-    {
-        remove(ptr->data);
-    
-    }
-    else{
-    for (int i = 0; i < flaggedSize;i++)
-    {
-        delete_erasedAUX(ptr->left);
-        delete_erasedAUX(ptr->right);
-    }
-    }
-}
-
 
 void LazyBST::remove(const ElementType &item)
 {
@@ -316,7 +294,6 @@ void LazyBST::remove(const ElementType &item)
         locptr->isDeleted = false;
         locptr = y;
     }
-
     NodePointer z = locptr->left;
     if (z == NULL)
     {
@@ -335,5 +312,47 @@ void LazyBST::remove(const ElementType &item)
         parent->right = z;
     }
     delete locptr;
+}
+
+void LazyBST::inorderAux(NodePointer subtreeRoot) 
+{
+    if (subtreeRoot != 0)
+    {
+        inorderAux(subtreeRoot->left); // L operation
+        if (subtreeRoot->isDeleted)
+        {
+            cleanQ.push(subtreeRoot->data);
+        }                               // V operation
+        inorderAux(subtreeRoot->right); // R operation
+    }
+}
+
+void LazyBST::clean()
+{
+    inorder();
+    for (int i = 0; i < flaggedSize; i++)
+    {
+        ElementType deletedElement = cleanQ.front();
+        remove(deletedElement);
+        cleanQ.pop();
+    }
+}
+
+
+
+void LazyBST:: clear(){
+    clearAUX(myRoot);
+}
+
+void LazyBST:: clearAUX(NodePointer root)
+{
+    if (root != NULL)
+    {
+        clearAUX(root->left);
+        root->left=NULL;
+        clearAUX(root->right);
+        root->right=NULL;
+        myRoot=nullptr;
+    }
 }
 

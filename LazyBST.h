@@ -1,3 +1,4 @@
+#include <queue>
 #include <stdio.h>
 #include <iostream>
 using namespace std;
@@ -113,14 +114,19 @@ public:
 	void delete_erasedAUX(NodePointer &ptr);
 	void remove(const ElementType &item);
 
-	void inorderAux(NodePointer subtreeRoot) const;
-	void inorder() const;
+	void inorderAux(NodePointer subtreeRoot);
+	void inorderAuxClear(NodePointer subtreeRoot);
+	void inorder();
+
+	void clearAUX(NodePointer node);
 
 private:
 	NodePointer myRoot;
 	ElementType maxLevel=0;
 	int mySize=0; //size of all nodes inside the BST
 	int flaggedSize; //size of isDeleted or flagged nodes inside the BST
+	queue<ElementType> cleanQ;
+	queue<ElementType> clearQ;
 };
 
 
