@@ -100,7 +100,7 @@ void LazyBST::insert(const ElementType &item)
     }
     else if (found && locptr->isDeleted)
     {
-        cout << "item in the tree and tagged as deleted" << endl;
+        cout << "Item in the tree and tagged as deleted" << endl;
         locptr->isDeleted = false;
         flaggedSize--;
     }
@@ -342,6 +342,7 @@ void LazyBST::remove(const ElementType &item)
         locptr->isDeleted = false; //changing the tag of the tagged node after replacing its information
         locptr = y;                //updating the pointer (locptr) to point on the node to be deleted
     }
+    
     NodePointer z = locptr->left; //if the node has one child or a leaf node
 
     if (z == NULL) //checking as the node could be a node with one child that has come from the above if condition
