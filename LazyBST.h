@@ -1,3 +1,4 @@
+#include <queue>
 #include <stdio.h>
 #include <iostream>
 using namespace std;
@@ -11,9 +12,11 @@ private:
 	{
 	public:
 		ElementType data;
-		Node * left;
-		Node * right;
+		ElementType Level;
+		Node* left;
+		Node* right;
 		bool isDeleted;
+		
 
 		Node() :left(0), right(0), isDeleted(0)
 		{}
@@ -22,6 +25,27 @@ private:
 		{}
 	};
 	typedef Node* NodePointer;
+
+	struct Trunk
+	{
+		Trunk *prev;
+		string str;
+
+		Trunk(Trunk *prev, string str)
+		{
+			this->prev = prev;
+			this->str = str;
+		}
+	};
+
+	void search(const ElementType &item, bool &found, NodePointer &locptr, NodePointer &parent) const;
+	/*------------------------------------------------------------------------
+     Locate a node containing item and its parent.
+     
+     Precondition:  None.
+     Postcondition: locptr points to node containing item or is null if
+     not found, and parent points to its parent.#include <iostream>
+     ------------------------------------------------------------------------*/
 
 public:
 
@@ -37,7 +61,8 @@ public:
 	/*--------------------------------------------------------------------
 	 Returns the number of nodes in the tree not including nodes tagged as erased.
 	 --------------------------------------------------------------------*/
-	int height(NodePointer root);
+	int height();
+	int heightAux(NodePointer root);
 	/*--------------------------------------------------------------------
 	 Returns the height of the tree including nodes tagged as erased.
     ---------------------------------------------------------------------*/
@@ -46,9 +71,18 @@ public:
 	 Return true if the argument is in the tree and not tagged as erased and false otherwise.
 	---------------------------------------------------------------------*/
 	ElementType front();
-	/*--------------------------------------------------------------------
-	 Return the minimum non-erased object of this tree by calling front on the root node.
-	---------------------------------------------------------------------*/
+	/* 
+    we have two pointers (ptr and succPtr) and a variable called minimum
+    first we assign the initial value of minimum to myRoot's data,
+    secondly, we assign ptr to myRoot and succPtr to its left child 
+
+    we loop through the tree's left children since they contain all minimum values
+
+    if ptr's data is bigger than succPtr's data and succPtr is not marked as deleted
+    then succPtr's data is less than ptr's data, thus we minimum = succPtr's data
+
+    thus after looping, we return minimum's value
+    */
 	ElementType back();
 	/*--------------------------------------------------------------------
 	 Return the maximum non-erased object of this tree by calling back on the root node.
@@ -57,7 +91,7 @@ public:
 	/*--------------------------------------------------------------------
 	 Perform a breadh-first traversal.
 	---------------------------------------------------------------------*/
-	bool insert(ElementType item);
+	void insert(const ElementType &item);
 	/*--------------------------------------------------------------------
 	 Insert the new object into the tree: 
 	 If the object is already in the tree and not tagged as erased, return false and do nothing; 
@@ -76,19 +110,29 @@ public:
 	 otherwise, the corresponding function is called on the root node.
 	---------------------------------------------------------------------*/
 	void clear();
+	void clearAUX(NodePointer node);
 	/*--------------------------------------------------------------------
 	 Delete all the nodes in the tree.
 	---------------------------------------------------------------------*/
-
 	void clean();
+	void cleanAUX(NodePointer current);
+	void cleanTraverse(NodePointer subtreeRoot);
 	/*--------------------------------------------------------------------
 	 Delete all nodes tagged as deleted within the tree following the description found in the lazy-deletion node class.
 	---------------------------------------------------------------------*/
+	void remove(const ElementType &item);
+	void showTrunks(Trunk *p);
+	void printTree(NodePointer root, Trunk *prev, bool isLeft);
+	void printTreeAUX();
 
 private:
-	NodePointer root;
-	int mySize; //size of all nodes inside the BST
+	NodePointer myRoot;
+	ElementType maxLevel=0;
+	int mySize=0; //size of all nodes inside the BST
 	int flaggedSize; //size of isDeleted or flagged nodes inside the BST
+	queue<ElementType> cleanQ;
+	queue<ElementType> clearQ;
 };
+
 
 
