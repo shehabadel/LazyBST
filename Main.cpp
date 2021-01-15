@@ -11,18 +11,21 @@ int main()
     cout << "\nConstructing empty BST\n";
 
 BreakOperation:
-    cout << "\nChoose an operation of the following by typing in the operation name:" << endl;
-    cout << "\ninsert || traverse || size || front(Min) || back(Max) || Height || Erase || Clear || Clean || member || You can exit by typing in -999\n\n";
+    cout << "\n";
+    cout << "\nChoose an operation of the following by typing the operation index:" << endl;
+    cout << "\n 1. Insert\n 2. Traverse\n 3. Size\n 4. Front(Min)\n 5. Back(Max)\n 6. Height\n 7. Erase\n 8. Clear\n 9. Clean\n 10. Member\n 11. Visualize tree\n 12. Exit\n\n";
     cout << "Perform: ";
     cin >> x;
-    cout << "\n";
+    
 
-   Insert: if (x == "insert")
+   if (x == "1")
     {
+        cout << "inserting....";
+        cout << "\n";
         ElementType number;
         for (;;)
         {
-            cout << "Enter numbers to add in the tree: ";
+            cout << "Enter numbers to add in the tree (-999 to stop): ";
             cin >> number;
             if (number == -999)
                 goto BreakOperation;
@@ -31,57 +34,57 @@ BreakOperation:
         }
     }
 
-    Traverse: if (x== "traverse" && !l1.empty())
+    if (x== "2" && !l1.empty())
     {
         l1.breadth_first_traversal();
         goto BreakOperation;
     }
-    else if(x == "traverse" && l1.empty())
+    else if(x == "2" && l1.empty())
         {
             cout << "\n***ERORR:TREE IS EMPTY***" << endl;
             goto BreakOperation;
     }
-    Size: if (x=="size")
+    if (x=="3")
     {
-        cout << "\ntree size is: "<< l1.size()<<"\n";
+        cout << "\nTree size is: "<< l1.size()<<"\n";
         goto BreakOperation;
     }
     
 
-    Front: if (x=="front" && !l1.empty())
+    if (x=="4" && !l1.empty())
     {
         cout << "\nSmallest Number is: " << l1.front() << endl;
         goto BreakOperation;
     }
-    else if (x == "front" && l1.empty())
+    else if (x == "4" && l1.empty())
     {
         cout << "\n***ERORR:TREE IS EMPTY***" << endl;
         goto BreakOperation;
     }
 
-    Back: if (x=="back" && !l1.empty())
+    if (x=="5" && !l1.empty())
     {
         cout << "\nLargest Number is: " << l1.back() << endl;
         goto BreakOperation;
     }
-    else if (x == "back" && l1.empty())
+    else if (x == "5" && l1.empty())
     {
         cout << "\n***ERORR:TREE IS EMPTY***" << endl;
         goto BreakOperation;
     }
 
-    Height: if (x=="height")
+    if (x=="6")
     {
-        cout << l1.height()<<"\n";
+        cout << "Tree Height is: " <<l1.height()<<"\n";
         goto BreakOperation;
     }
 
-    Erase: if (x=="erase")
+    if (x=="7")
     {
         ElementType number;
         for (;;)
         {
-            cout << "\nEnter numbers to tag as deleted in the tree: ";
+            cout << "\nEnter numbers to tag as deleted in the tree (-999 to stop): ";
             cin >> number;
             if (number == -999)
                 goto BreakOperation;
@@ -90,31 +93,46 @@ BreakOperation:
         }
     }
 
-    Clear: if (x=="clear")
+    if (x=="8")
     {
         l1.clear();
         cout << "\nEmptying the tree....." << endl;
         goto BreakOperation;
     }
 
-    Clean: if (x=="clean")
+    if (x=="9")
     {
         l1.clean();
-        cout << "\ncleaning tagged nodes....." << endl;
+        cout << "\nCleaning tagged nodes....." << endl;
         goto BreakOperation;
     }
-    Member: if (x=="member")
+    if (x=="10")
     {
         ElementType number;
         for (;;)
         {
-            cout << "\nEnter numbers to search for in the tree: ";
+            cout << "\nEnter numbers to search for in the tree (-999 to stop): ";
             cin >> number;
             if (number == -999)
                 goto BreakOperation;
             l1.member(number);
             cout << endl;
         }
+    }
+    if (x == "11" && !l1.empty())
+    {
+        l1.printTreeAUX();
+        goto BreakOperation;
+    }
+    else if(x=="11"){
+        cout << "\n***ERORR:TREE IS EMPTY***\n";
+            goto BreakOperation;
+    }
+
+    else if(x=="12")
+    {
+        cout << "Exiting" << endl;
+        return 0;
     }
     else 
     {

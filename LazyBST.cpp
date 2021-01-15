@@ -1,5 +1,6 @@
 #include "LazyBST.h"
 #include <queue>
+#include <iomanip>
 #include "iostream"
 using namespace std;
 
@@ -350,4 +351,55 @@ void LazyBST::clearAUX(NodePointer root)
         mySize = 0;
         flaggedSize = 0;
     }
+}
+
+void LazyBST::showTrunks(Trunk *p)
+{
+    if (p == nullptr)
+        return;
+
+    showTrunks(p->prev);
+
+    cout << p->str;
+}
+
+// Recursive function to print binary tree
+// It uses inorder traversal
+void LazyBST::printTree(NodePointer root, Trunk *prev, bool isLeft)
+{
+    if (root == nullptr)
+        return;
+
+    string prev_str = "    ";
+    Trunk *trunk = new Trunk(prev, prev_str);
+
+    printTree(root->right, trunk, true);
+
+    if (!prev)
+        trunk->str = "r -";
+    else if (isLeft)
+    {
+        trunk->str = ".---";
+        prev_str = "   |";
+    }
+    else
+    {
+        trunk->str = "`---";
+        prev->str = prev_str;
+    }
+
+    showTrunks(trunk);
+    if(root->isDeleted)
+        cout << root->data<<'x' << endl;
+    else
+        cout << root->data << endl;
+    if (prev)
+        prev->str = prev_str;
+    trunk->str = "   |";
+
+    printTree(root->left, trunk, false);
+}
+
+void LazyBST::printTreeAUX(){
+    printTree(myRoot, nullptr, false);
 }

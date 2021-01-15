@@ -26,6 +26,18 @@ private:
 	};
 	typedef Node* NodePointer;
 
+	struct Trunk
+	{
+		Trunk *prev;
+		string str;
+
+		Trunk(Trunk *prev, string str)
+		{
+			this->prev = prev;
+			this->str = str;
+		}
+	};
+
 	void search(const ElementType &item, bool &found, NodePointer &locptr, NodePointer &parent) const;
 	/*------------------------------------------------------------------------
      Locate a node containing item and its parent.
@@ -109,7 +121,9 @@ public:
 	 Delete all nodes tagged as deleted within the tree following the description found in the lazy-deletion node class.
 	---------------------------------------------------------------------*/
 	void remove(const ElementType &item);
-	
+	void showTrunks(Trunk *p);
+	void printTree(NodePointer root, Trunk *prev, bool isLeft);
+	void printTreeAUX();
 
 private:
 	NodePointer myRoot;
